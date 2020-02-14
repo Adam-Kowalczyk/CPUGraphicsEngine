@@ -1,6 +1,7 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,16 +71,23 @@ namespace CPUGraphicsEngine
         {
             zTable = new double[DBitmap.Width, DBitmap.Height];
             ResetZTable();
-            var pvMatrix = ProjectionMatrix.Multiply(SelectedCamera.ViewMatrix);
+            var pMatrix = ProjectionMatrix;
+            var vMatrix = SelectedCamera.ViewMatrix;
+            var v = Vector<double>.Build.DenseOfArray(new double[] { 0, 0, 1 });
             foreach (var shape in Shapes)
             {
                 shape.IsRender = true;
                 var mMatrix = shape.ModelMatrix;
-                var pvmMatrix = pvMatrix.Multiply(mMatrix);
-                foreach(var side in shape.SideTriangles)
-                {
-                    side.Process(pvmMatrix);
-                    side.DrawSide(DBitmap, DBitmap.Width/2, zTable);
+                var vmMatrix = vMatrix.Multiply(mMatrix);
+                foreach (var side in shape.SideTriangles)
+                {                    
+                    side.Process(vmMatrix);
+                    var n = side.Normal;
+                    if (n[0]*v[0] + n[1]*v[1] + n[2]*v[2] <= 0)
+                    {
+                        side.Process(pMatrix, false);
+                        side.DrawSide(DBitmap, DBitmap.Width / 2, zTable);
+                    }
                 }
                 shape.IsRender = false;
             }

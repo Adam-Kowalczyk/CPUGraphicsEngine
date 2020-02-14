@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -106,6 +107,13 @@ namespace CPUGraphicsEngine
             });
         }
 
+        public static Vector<double> BuildNormal(Vector3 nv, Vector3 v)
+        {
+            var normal = Vector<double>.Build.DenseOfArray(new double[] { nv.X, nv.Y, nv.Z, -(nv.X*v.X + nv.Y * v.Y + nv.Z * v.Z) });
+            return normal;
+        }
+
+        //public static Color PhongeIllumination()
 
     }
     public class EdgeStruct
@@ -114,4 +122,5 @@ namespace CPUGraphicsEngine
         public double X;
         public double Slope;
     }
+
 }

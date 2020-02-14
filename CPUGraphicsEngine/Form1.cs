@@ -21,7 +21,7 @@ namespace CPUGraphicsEngine
             RenderEngine = Engine.CreateEngine(DBitmap);
             Cube = Shape.CreateCube();
             RenderEngine.Shapes.Add(Cube);
-            var cam = new Camera(new Vector3(20f, 0f, 0f), new Vector3(0, 0, 0), new Vector3(0, 0, 1));
+            var cam = new Camera(new Vector3(20f, 10f, 0f), new Vector3(0, 0, 0), new Vector3(0, 0, 1));
             //cam.XAxis = new Vector3(0, 0, 1);
             //cam.YAxis = new Vector3(1, 0, 0);
             //cam.ZAxis = new Vector3(0, 1, 0);

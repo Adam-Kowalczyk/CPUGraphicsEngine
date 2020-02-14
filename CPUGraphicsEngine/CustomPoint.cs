@@ -91,7 +91,7 @@ namespace CPUGraphicsEngine
 
         public Vector<double> ProcessedNormal { get; set; }
 
-        public void Process(Matrix<double> matrix)
+        public void Process(Matrix<double> matrix, bool useNormals = true)
         {
             if (!IsRender)
                 return;
@@ -102,9 +102,10 @@ namespace CPUGraphicsEngine
             yRender = outcome.At(1);
             zRender = outcome.At(2);
 
-            if(Normal!= null)
+            if(useNormals && Normal!= null)
             {
-                ProcessedNormal = matrix.Inverse().TransposeThisAndMultiply(Normal).Normalize(2);
+                var pNormal = matrix.Inverse().TransposeThisAndMultiply(Normal).Normalize(2);
+                ProcessedNormal = pNormal;
             }
 
         }

@@ -15,12 +15,12 @@ namespace CPUGraphicsEngine
         {
             Points = new List<CustomPoint>() { new CustomPoint(x0, y0, z0), new CustomPoint(x1, y1, z1), new CustomPoint(x2, y2, z2) };
         }
-        public SideTriangle(Vector3 v0, Vector3 v1, Vector3 v2)
+        public SideTriangle(Vector3 v0, Vector3 v1, Vector3 v2, Vector3 nv0, Vector3 nv1, Vector3 nv2)
         {
             Points = new List<CustomPoint>() { 
-                new CustomPoint(v0.X, v0.Y, v0.Z),
-                new CustomPoint(v1.X, v1.Y, v1.Z),
-                new CustomPoint(v2.X, v2.Y, v2.Z), };
+                new CustomPoint(v0.X, v0.Y, v0.Z) { Normal = Helpers.BuildNormal(nv0, v0) },
+                new CustomPoint(v1.X, v1.Y, v1.Z) { Normal = Helpers.BuildNormal(nv1, v1) },
+                new CustomPoint(v2.X, v2.Y, v2.Z) { Normal = Helpers.BuildNormal(nv2, v2) } };
         }
         public SideTriangle(CustomPoint p1, CustomPoint p2, CustomPoint p3, Color? color = null)
         {
@@ -46,27 +46,35 @@ namespace CPUGraphicsEngine
         public Color paintColor = Color.Chocolate;
 
 
-        public Vector<double> Normal { get; set; }
+        public Vector<double> Normal 
+        { 
+            get 
+            {
+                //var norm = Points[0].Normal.Add(Points[1].Normal).Add(Points[2].Normal);
+                var norm = Points[0].ProcessedNormal.Add(Points[1].ProcessedNormal).Add(Points[2].ProcessedNormal);
+                return norm.Multiply(1.0/3);
+                //return Points[0].ProcessedNormal.Add(Points[1].ProcessedNormal).Add(Points[2].ProcessedNormal);
+            } 
+        }
 
-        public Vector<double> ProcessedNormal { get; set; }
 
-        public void Process(Matrix<double> modelMatrix)
+        public void Process(Matrix<double> modelMatrix, bool useNormals = true)
         {
             if (!IsRender) return;
-            if (Normal != null)
-            {
-                ProcessedNormal = modelMatrix.Inverse().TransposeThisAndMultiply(Normal).Normalize(2);
-            }
+
             foreach (var point in Points)
             {
-                point.Process(modelMatrix);
+                point.Process(modelMatrix, useNormals);
             }
+
         }
 
         public void DrawSide(DirectBitmap bitmap, int radius, double [,] zTable)
         {
             var convPoints = new List<Point>();
             var zPoints = new List<double>();
+
+            var x = Normal;
 
             foreach (var point in Points)
             {

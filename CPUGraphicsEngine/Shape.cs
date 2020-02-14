@@ -106,6 +106,17 @@ namespace CPUGraphicsEngine
                 new Vector3 (1, -1, 1),
                 new Vector3 (-1, -1, 1),
             };
+
+            Vector3[] normals =
+            {
+                new Vector3 (0, 0, -1),
+                new Vector3 (0, 1, 0),
+                new Vector3 (1, 0, 0),
+                new Vector3 (-1, 0, 0),
+                new Vector3 (0, 0, 1),
+                new Vector3 (0, -1, 0),
+            };
+
             int[] triangles = {
                 0, 2, 1, //face front
 	            0, 3, 2,
@@ -120,12 +131,16 @@ namespace CPUGraphicsEngine
                 0, 6, 7, //face bottom
 	            0, 1, 6
             };
+
             Color color = GetRandomColor();
             for(int i =0; i < triangles.Length; i+=3)
             {
                 if (i % 6 == 0)
                     color = GetRandomColor();
-                shape.SideTriangles.Add(new SideTriangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]]) { paintColor  = color});
+                shape.SideTriangles.Add(new SideTriangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]],
+                    normals[i/6], normals[i / 6], normals[i / 6]) { 
+                    paintColor  = color,
+                });
             }
             return shape;
         }
