@@ -135,8 +135,8 @@ namespace CPUGraphicsEngine
             Color color = GetRandomColor();
             for(int i =0; i < triangles.Length; i+=3)
             {
-                if (i % 6 == 0)
-                    color = GetRandomColor();
+                //if (i % 6 == 0)
+                    //color = GetRandomColor();
                 shape.SideTriangles.Add(new SideTriangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]],
                     normals[i/6], normals[i / 6], normals[i / 6]) { 
                     paintColor  = color,

@@ -33,6 +33,13 @@ namespace CPUGraphicsEngine
         DirectBitmap dBitmap;
         public Camera SelectedCamera { get; set; }
 
+        public double Ka { get; set; } = 0.3;
+        public double Kd { get; set; } = 1;
+        public double Ks { get; set; } = 0.2;
+        public int N_shiny { get; set; } = 5;
+
+        public ShadingMode ShadingMode { get; set; } = ShadingMode.Flat;
+
         public double Near { get; set; }
         public double Far { get; set; }
         public double Fov { get; set; }
@@ -54,6 +61,8 @@ namespace CPUGraphicsEngine
 
         public List<Shape> Shapes { get; set; } = new List<Shape>();
 
+        public List<Light> Lights { get; set; } = new List<Light>();
+
         double[,] zTable;
 
         void ResetZTable()
@@ -62,7 +71,7 @@ namespace CPUGraphicsEngine
             {
                 for (int j = 0; j < dBitmap.Width; j++)
                 {
-                    zTable[j, i] = double.MinValue; 
+                    zTable[j, i] = double.MaxValue; 
                 }
             }
         }
@@ -70,10 +79,16 @@ namespace CPUGraphicsEngine
         public void Render()
         {
             zTable = new double[DBitmap.Width, DBitmap.Height];
+            var surf = new SurfaceInfo { Ka = Ka, Kd = Kd, Ks = Ks, N_shiny = N_shiny };
             ResetZTable();
             var pMatrix = ProjectionMatrix;
             var vMatrix = SelectedCamera.ViewMatrix;
             var v = Vector<double>.Build.DenseOfArray(new double[] { 0, 0, 1 });
+
+            foreach(var light in Lights)
+            {
+                light.Process(vMatrix);
+            }
             foreach (var shape in Shapes)
             {
                 shape.IsRender = true;
@@ -83,10 +98,10 @@ namespace CPUGraphicsEngine
                 {                    
                     side.Process(vmMatrix);
                     var n = side.Normal;
-                    if (n[0]*v[0] + n[1]*v[1] + n[2]*v[2] <= 0)
+                    if (n[0]*v[0] + n[1]*v[1] + n[2]*v[2] >= 0)
                     {
-                        side.Process(pMatrix, false);
-                        side.DrawSide(DBitmap, DBitmap.Width / 2, zTable);
+                        //side.Process(pMatrix, false);
+                        side.DrawSide(DBitmap, pMatrix, DBitmap.Width / 2, zTable, surf, Lights, ShadingMode);
                     }
                 }
                 shape.IsRender = false;

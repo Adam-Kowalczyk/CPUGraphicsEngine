@@ -69,12 +69,16 @@ namespace CPUGraphicsEngine
 
         }
 
-        public void DrawSide(DirectBitmap bitmap, int radius, double [,] zTable)
+        public void DrawSide(DirectBitmap bitmap, Matrix<double> projectionMatrix, int radius, double [,] zTable, SurfaceInfo surface, List<Light> lights, ShadingMode shadingMode)
         {
+            var pos = GetPositions();
+            var norms = GetNormals();
+
+            Process(projectionMatrix, false);
             var convPoints = new List<Point>();
             var zPoints = new List<double>();
 
-            var x = Normal;
+            
 
             foreach (var point in Points)
             {
@@ -82,8 +86,28 @@ namespace CPUGraphicsEngine
                 zPoints.Add(point.Z);
             }
 
-            Helpers.Fill(bitmap, convPoints, paintColor, zPoints, zTable);
+            Helpers.Fill(bitmap, convPoints, paintColor, zPoints, zTable, pos, norms, surface, lights, shadingMode);
         }
 
+        public List<Vector<double>> GetPositions()
+        {
+            var pos = new List<Vector<double>>();
+            foreach(var p in Points)
+            {
+                pos.Add(Helpers.BuildVector(p.X, p.Y, p.Z));
+            }
+            return pos;
+        }
+
+        public List<Vector<double>> GetNormals()
+        {
+            var pos = new List<Vector<double>>();
+            foreach (var p in Points)
+            {
+                var normal = p.ProcessedNormal;
+                pos.Add(Helpers.BuildVector(normal[0], normal[1], normal[2]).Normalize(2));
+            }
+            return pos;
+        }
     }
 }
