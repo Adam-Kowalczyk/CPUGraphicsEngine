@@ -83,6 +83,7 @@ namespace CPUGraphicsEngine
             foreach (var point in Points)
             {
                 convPoints.Add(new Point((int)((point.X + 1) * radius), (int)((point.Y + 1) * radius)));
+
                 zPoints.Add(point.Z);
             }
 

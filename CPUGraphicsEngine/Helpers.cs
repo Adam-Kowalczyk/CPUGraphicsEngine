@@ -112,7 +112,7 @@ namespace CPUGraphicsEngine
                                 shadingCol = Color.FromArgb((int)gR, (int)gG, (int)gB);
                             }
 
-                            if(shadingMode == ShadingMode.Phong)
+                            if (shadingMode == ShadingMode.Phong)
                             {
                                 var normal = normals[0] * w.Item1 + normals[1] * w.Item2 + normals[2] * w.Item3;
                                 normal = normal.Normalize(2);
@@ -174,9 +174,11 @@ namespace CPUGraphicsEngine
                 var lightNormalAngle = normal.DotProduct(l);
                 var diffuseR = surface.Kd * lightNormalAngle;
                 if (lightNormalAngle < 0) continue;
+
                 outcome.R += colorInfo.R * diffuseR;
                 outcome.G += colorInfo.G * diffuseR;
                 outcome.B += colorInfo.B * diffuseR;
+
 
                 //sepcular
                 var v = (-position).Normalize(2);
@@ -184,13 +186,18 @@ namespace CPUGraphicsEngine
                 var r = 2 * lightNormalAngle * normal - l;
                 r = r.Normalize(2);
 
-                var cameraRAngle = v.DotProduct(r);
+                var cameraRAngle = r.DotProduct(v);
+                if (cameraRAngle < 0) continue;
 
-                var specularR = surface.Ks * Math.Pow(Math.Cos(cameraRAngle), surface.N_shiny);
+                var specularR = surface.Ks * Math.Pow(cameraRAngle, surface.N_shiny);
 
-                outcome.R += colorInfo.R * specularR;
-                outcome.G += colorInfo.G * specularR;
-                outcome.B += colorInfo.B * specularR;
+                //outcome.R += colorInfo.R * specularR;
+                //outcome.G += colorInfo.G * specularR;
+                //outcome.B += colorInfo.B * specularR;
+
+                outcome.R += specularR;
+                outcome.G += specularR;
+                outcome.B += specularR;
             }
 
             if (outcome.R > 1) outcome.R = 1;
@@ -226,8 +233,20 @@ namespace CPUGraphicsEngine
         {
             double den = 1.0 / ((b.Y - c.Y) * (a.X - c.X) + (c.X - b.X) * (a.Y - c.Y)); //to można liczyć przed!
             double first = ((b.Y - c.Y) * (pX - c.X) + (c.X - b.X) * (pY - c.Y)) * den;
+
+            if (first < 0)
+                first = 0;
             double second = ((c.Y - a.Y) * (pX - c.X) + (a.X - c.X) * (pY - c.Y)) * den;
+            if (second < 0)
+                second = 0;
             double third = 1 - first - second;
+            if(third < 0)
+            {
+                third = 0;
+                first = 1 - second;
+            }
+
+
             return (first, second, third);
         }
     }

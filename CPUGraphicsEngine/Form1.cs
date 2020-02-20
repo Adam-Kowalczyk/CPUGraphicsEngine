@@ -16,10 +16,13 @@ namespace CPUGraphicsEngine
     {
         public Form1()
         {
+            
             InitializeComponent();
             DBitmap = new DirectBitmap(pictureBox1.Width, pictureBox1.Height);
             RenderEngine = Engine.CreateEngine(DBitmap);
-            Cube = Shape.CreateCube();
+            //Cube = Shape.CreateCube();
+            Cube = Shape.CreateSphere(1, Color.Blue);
+
             RenderEngine.Shapes.Add(Cube);
             var cam = new Camera(new Vector3(20f, 10f, 0f), new Vector3(0, 0, 0), new Vector3(0, 0, 1));
 
@@ -32,11 +35,6 @@ namespace CPUGraphicsEngine
             RenderEngine.SelectedCamera = cam;
             RenderEngine.Lights.Add(light);
             pictureBox1.Image = DBitmap.Bitmap;
-            var gfx = Graphics.FromImage(pictureBox1.Image);
-            gfx.DrawLine(new Pen(Brushes.Red), 0, 0, pictureBox1.Width - 1, 0);
-            gfx.DrawLine(new Pen(Brushes.Red), 0, 0, 0, pictureBox1.Height -1);
-            gfx.DrawLine(new Pen(Brushes.Red), 0, pictureBox1.Height -1 , pictureBox1.Width - 1, pictureBox1.Height - 1);
-            gfx.DrawLine(new Pen(Brushes.Red), pictureBox1.Width - 1 ,0, pictureBox1.Width - 1, pictureBox1.Height -1);
         }
 
         public DirectBitmap DBitmap;
@@ -50,11 +48,6 @@ namespace CPUGraphicsEngine
             RenderEngine.DBitmap = DBitmap;
             RenderEngine.Render();
             pictureBox1.Image = RenderEngine.DBitmap.Bitmap;
-            //var gfx = Graphics.FromImage(pictureBox1.Image);
-            //gfx.DrawLine(new Pen(Brushes.Red), 0, 0, pictureBox1.Width - 1, 0);
-            //gfx.DrawLine(new Pen(Brushes.Red), 0, 0, 0, pictureBox1.Height - 1);
-            //gfx.DrawLine(new Pen(Brushes.Red), 0, pictureBox1.Height - 1, pictureBox1.Width - 1, pictureBox1.Height - 1);
-            //gfx.DrawLine(new Pen(Brushes.Red), pictureBox1.Width - 1, 0, pictureBox1.Width - 1, pictureBox1.Height - 1);
 
         }
 

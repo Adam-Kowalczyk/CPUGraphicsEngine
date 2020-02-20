@@ -152,6 +152,28 @@ namespace CPUGraphicsEngine
             return Color.FromArgb(randomizer.Next(0, 255), randomizer.Next(0, 255), randomizer.Next(0, 255));
         }
 
+        public static Shape CreateSphere(int recurtionLevel, Color color)
+        {
+            var factory = new IcoSphereFactory();
+            var faces = factory.Create(recurtionLevel);
+            var sphere = new Shape();
+            foreach (var face in faces)
+            {
+                var side = new SideTriangle(face.V1, face.V2, face.V3, Vector3.Normalize(face.V1), Vector3.Normalize(face.V2), Vector3.Normalize(face.V3))
+                {
+                    paintColor = color
+                };
+                sphere.SideTriangles.Add(side);
+            }
+            //var face = faces[76];
+            //var side = new SideTriangle(face.V1, face.V2, face.V3, Vector3.Normalize(face.V1), Vector3.Normalize(face.V2), Vector3.Normalize(face.V3))
+            //{
+            //    paintColor = color
+            //};
+            //sphere.SideTriangles.Add(side);
+            return sphere;
+        }
+
     }
 
     public enum Axis
