@@ -133,13 +133,14 @@ namespace CPUGraphicsEngine
             };
 
             Color color = GetRandomColor();
-            for(int i =0; i < triangles.Length; i+=3)
+            for (int i = 0; i < triangles.Length; i += 3)
             {
                 //if (i % 6 == 0)
-                    //color = GetRandomColor();
+                //color = GetRandomColor();
                 shape.SideTriangles.Add(new SideTriangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]],
-                    normals[i/6], normals[i / 6], normals[i / 6]) { 
-                    paintColor  = color,
+                    normals[i / 6], normals[i / 6], normals[i / 6])
+                {
+                    paintColor = color,
                 });
             }
             return shape;
@@ -172,6 +173,89 @@ namespace CPUGraphicsEngine
             //};
             //sphere.SideTriangles.Add(side);
             return sphere;
+        }
+
+
+        public static Shape CreateFlashLight(int devisionNumber, double headLength, double handleRadius, double headRadius, Color color)
+        {
+            var flash = new Shape();
+            var angleDifference = 2 * Math.PI / devisionNumber;
+            double end = -1;
+            double connector = 1 - headLength;
+            double beginning = 1;
+            for (int i = 0; i < devisionNumber; i++)
+            {
+                var firstAngle = angleDifference * i - Math.PI;
+                var secondAngle = angleDifference * (i + 1) - Math.PI;
+
+                var firstY = handleRadius * Math.Cos(firstAngle);
+                var firstX = handleRadius * Math.Sin(firstAngle);
+
+                var secondY = handleRadius * Math.Cos(secondAngle);
+                var secondX = handleRadius * Math.Sin(secondAngle);
+
+                var endSide = new SideTriangle(new Vector3(0, 0, (float)end),
+                    new Vector3((float)firstX, (float)firstY, (float)end),
+                    new Vector3((float)secondX, (float)secondY, (float)end),
+                    new Vector3(0, 0, -1), new Vector3(0, 0, -1), new Vector3(0, 0, -1))
+                { paintColor = color };
+                flash.SideTriangles.Add(endSide);
+
+                var longSide1 = new SideTriangle(new Vector3((float)firstX, (float)firstY, (float)end),
+                    new Vector3((float)secondX, (float)secondY, (float)end),
+                    new Vector3((float)firstX, (float)firstY, (float)connector),
+                    Vector3.Normalize(new Vector3((float)firstX, (float)firstY, 0)),
+                    Vector3.Normalize(new Vector3((float)secondX, (float)secondY, 0)),
+                    Vector3.Normalize(new Vector3((float)firstX, (float)firstY, 0)))
+                { paintColor = color };
+                flash.SideTriangles.Add(longSide1);
+
+                var longSide2 = new SideTriangle(new Vector3((float)secondX, (float)secondY, (float)end),
+                    new Vector3((float)secondX, (float)secondY, (float)connector),
+                    new Vector3((float)firstX, (float)firstY, (float)connector),
+                    Vector3.Normalize(new Vector3((float)secondX, (float)secondY, 0)),
+                    Vector3.Normalize(new Vector3((float)secondX, (float)secondY, 0)),
+                    Vector3.Normalize(new Vector3((float)firstX, (float)firstY, 0)))
+                { paintColor = color };
+                flash.SideTriangles.Add(longSide2);
+
+                var endY1 = headRadius * Math.Cos(firstAngle);
+                var endX1 = headRadius * Math.Sin(firstAngle);
+
+                var endY2 = headRadius * Math.Cos(secondAngle);
+                var endX2 = headRadius * Math.Sin(secondAngle);
+
+                var heightDiff = headRadius - handleRadius;
+
+                var zS = heightDiff / headLength * headRadius;
+
+                var shortSide1 = new SideTriangle(new Vector3((float)firstX, (float)firstY, (float)connector),
+                    new Vector3((float)secondX, (float)secondY, (float)connector),
+                    new Vector3((float)endX1, (float)endY1, (float)beginning),
+                    Vector3.Normalize(new Vector3((float)endX1, (float)endY1, -(float)zS)),
+                    Vector3.Normalize(new Vector3((float)endX2, (float)endY2, -(float)zS)),
+                    Vector3.Normalize(new Vector3((float)endX1, (float)endY1, -(float)zS)))
+                { paintColor = color };
+                flash.SideTriangles.Add(shortSide1);
+
+                var shortSide2 = new SideTriangle(new Vector3((float)secondX, (float)secondY, (float)connector),
+                    new Vector3((float)endX2, (float)endY2, (float)beginning),
+                    new Vector3((float)endX1, (float)endY1, (float)beginning),
+                     Vector3.Normalize(new Vector3((float)endX2, (float)endY2, -(float)zS)),
+                    Vector3.Normalize(new Vector3((float)endX2, (float)endY2, -(float)zS)),
+                    Vector3.Normalize(new Vector3((float)endX1, (float)endY1, -(float)zS)))
+                { paintColor = color };
+                flash.SideTriangles.Add(shortSide2);
+
+                var opening = new SideTriangle(new Vector3(0, 0, (float)beginning),
+                    new Vector3((float)endX2, (float)endY2, (float)beginning),
+                    new Vector3((float)endX1, (float)endY1, (float)beginning),
+                    new Vector3(0, 0, 1), new Vector3(0, 0, 1), new Vector3(0, 0, 1))
+                { paintColor = color, ChangeColor = true };
+                flash.SideTriangles.Add(opening);
+            }
+            return flash;
+
         }
 
     }

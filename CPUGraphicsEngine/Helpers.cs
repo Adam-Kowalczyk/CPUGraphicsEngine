@@ -14,8 +14,12 @@ namespace CPUGraphicsEngine
         public static void Fill(DirectBitmap bitmap, List<Point> points, Color color, List<double> zs, double[,] Ztable,
             List<Vector<double>> positions, List<Vector<double>> normals, SurfaceInfo surface, List<Light> lights, ShadingMode shadingMode = ShadingMode.Flat)
         {
+            int margin = 500;
             var maxY = points.Max(x => x.Y);
+            if (maxY < -margin || maxY > bitmap.Height + margin) return;
+                
             var minY = points.Min(x => x.Y);
+            if (minY < -margin || minY > bitmap.Height + margin) return;
             var etTable = new List<EdgeStruct>[maxY - minY + 1];
             for (int i = 0; i < points.Count; i++)
             {

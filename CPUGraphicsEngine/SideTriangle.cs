@@ -45,7 +45,7 @@ namespace CPUGraphicsEngine
         public List<CustomPoint> Points { get; set; }
         public Color paintColor = Color.Chocolate;
 
-
+        public bool ChangeColor = false;
         public Vector<double> Normal 
         { 
             get 
@@ -55,6 +55,17 @@ namespace CPUGraphicsEngine
                 return norm.Multiply(1.0/3);
                 //return Points[0].ProcessedNormal.Add(Points[1].ProcessedNormal).Add(Points[2].ProcessedNormal);
             } 
+        }
+
+        public Vector<double> Position
+        {
+            get
+            {
+                //var norm = Points[0].Normal.Add(Points[1].Normal).Add(Points[2].Normal);
+                var pos = Points[0].Vector.Add(Points[1].Vector).Add(Points[2].Vector);
+                return pos.Multiply(1.0 / 3);
+                //return Points[0].ProcessedNormal.Add(Points[1].ProcessedNormal).Add(Points[2].ProcessedNormal);
+            }
         }
 
 

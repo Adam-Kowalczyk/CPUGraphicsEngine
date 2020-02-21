@@ -32,6 +32,10 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.phongRadioButton = new System.Windows.Forms.RadioButton();
+            this.gouraudRadioButton = new System.Windows.Forms.RadioButton();
+            this.flatRadioButton = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.nShinyLabel = new System.Windows.Forms.Label();
@@ -44,15 +48,18 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.fovLabel = new System.Windows.Forms.Label();
             this.fovTrackBar = new System.Windows.Forms.TrackBar();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.flatRadioButton = new System.Windows.Forms.RadioButton();
-            this.gouraudRadioButton = new System.Windows.Forms.RadioButton();
-            this.phongRadioButton = new System.Windows.Forms.RadioButton();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.flashLightRotationLabel = new System.Windows.Forms.Label();
+            this.trackBar4 = new System.Windows.Forms.TrackBar();
+            this.globalCameraRbutton = new System.Windows.Forms.RadioButton();
+            this.behindCameraRButton = new System.Windows.Forms.RadioButton();
+            this.followingCamerarButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -60,7 +67,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ambientTrackBar)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).BeginInit();
-            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -83,6 +91,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox4);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
@@ -100,6 +109,54 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.phongRadioButton);
+            this.groupBox3.Controls.Add(this.gouraudRadioButton);
+            this.groupBox3.Controls.Add(this.flatRadioButton);
+            this.groupBox3.Location = new System.Drawing.Point(2, 316);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(174, 108);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Shading mode";
+            // 
+            // phongRadioButton
+            // 
+            this.phongRadioButton.AutoSize = true;
+            this.phongRadioButton.Location = new System.Drawing.Point(7, 76);
+            this.phongRadioButton.Name = "phongRadioButton";
+            this.phongRadioButton.Size = new System.Drawing.Size(70, 21);
+            this.phongRadioButton.TabIndex = 2;
+            this.phongRadioButton.Text = "Phong";
+            this.phongRadioButton.UseVisualStyleBackColor = true;
+            this.phongRadioButton.CheckedChanged += new System.EventHandler(this.phongRadioButton_CheckedChanged);
+            // 
+            // gouraudRadioButton
+            // 
+            this.gouraudRadioButton.AutoSize = true;
+            this.gouraudRadioButton.Location = new System.Drawing.Point(7, 49);
+            this.gouraudRadioButton.Name = "gouraudRadioButton";
+            this.gouraudRadioButton.Size = new System.Drawing.Size(85, 21);
+            this.gouraudRadioButton.TabIndex = 1;
+            this.gouraudRadioButton.Text = "Gouraud";
+            this.gouraudRadioButton.UseVisualStyleBackColor = true;
+            this.gouraudRadioButton.CheckedChanged += new System.EventHandler(this.gouraudRadioButton_CheckedChanged);
+            // 
+            // flatRadioButton
+            // 
+            this.flatRadioButton.AutoSize = true;
+            this.flatRadioButton.Checked = true;
+            this.flatRadioButton.Location = new System.Drawing.Point(7, 22);
+            this.flatRadioButton.Name = "flatRadioButton";
+            this.flatRadioButton.Size = new System.Drawing.Size(52, 21);
+            this.flatRadioButton.TabIndex = 0;
+            this.flatRadioButton.TabStop = true;
+            this.flatRadioButton.Text = "Flat";
+            this.flatRadioButton.UseVisualStyleBackColor = true;
+            this.flatRadioButton.CheckedChanged += new System.EventHandler(this.flatRadioButton_CheckedChanged);
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -111,7 +168,7 @@
             this.groupBox2.Controls.Add(this.diffuseLabel);
             this.groupBox2.Controls.Add(this.ambientTrackBar);
             this.groupBox2.Controls.Add(this.ambientLabel);
-            this.groupBox2.Location = new System.Drawing.Point(2, 106);
+            this.groupBox2.Location = new System.Drawing.Point(2, 146);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(174, 164);
             this.groupBox2.TabIndex = 1;
@@ -125,7 +182,7 @@
             this.trackBar3.Location = new System.Drawing.Point(55, 111);
             this.trackBar3.Minimum = 1;
             this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(113, 37);
+            this.trackBar3.Size = new System.Drawing.Size(119, 37);
             this.trackBar3.TabIndex = 7;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar3.Value = 5;
@@ -210,11 +267,14 @@
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.followingCamerarButton);
+            this.groupBox1.Controls.Add(this.behindCameraRButton);
+            this.groupBox1.Controls.Add(this.globalCameraRbutton);
             this.groupBox1.Controls.Add(this.fovLabel);
             this.groupBox1.Controls.Add(this.fovTrackBar);
             this.groupBox1.Location = new System.Drawing.Point(2, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(174, 96);
+            this.groupBox1.Size = new System.Drawing.Size(174, 137);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Camera Settings";
@@ -222,7 +282,7 @@
             // fovLabel
             // 
             this.fovLabel.AutoSize = true;
-            this.fovLabel.Location = new System.Drawing.Point(7, 21);
+            this.fovLabel.Location = new System.Drawing.Point(2, 22);
             this.fovLabel.Name = "fovLabel";
             this.fovLabel.Size = new System.Drawing.Size(55, 17);
             this.fovLabel.TabIndex = 1;
@@ -233,7 +293,7 @@
             this.fovTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.fovTrackBar.AutoSize = false;
             this.fovTrackBar.Location = new System.Drawing.Point(46, 21);
-            this.fovTrackBar.Maximum = 100;
+            this.fovTrackBar.Maximum = 90;
             this.fovTrackBar.Minimum = 20;
             this.fovTrackBar.Name = "fovTrackBar";
             this.fovTrackBar.Size = new System.Drawing.Size(128, 28);
@@ -243,53 +303,75 @@
             this.fovTrackBar.Value = 45;
             this.fovTrackBar.Scroll += new System.EventHandler(this.fovTrackBar_Scroll);
             // 
-            // groupBox3
+            // groupBox4
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.phongRadioButton);
-            this.groupBox3.Controls.Add(this.gouraudRadioButton);
-            this.groupBox3.Controls.Add(this.flatRadioButton);
-            this.groupBox3.Location = new System.Drawing.Point(2, 277);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(174, 108);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Shading mode";
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.trackBar4);
+            this.groupBox4.Controls.Add(this.flashLightRotationLabel);
+            this.groupBox4.Location = new System.Drawing.Point(2, 430);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(174, 100);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Scene Modifiers";
             // 
-            // flatRadioButton
+            // flashLightRotationLabel
             // 
-            this.flatRadioButton.AutoSize = true;
-            this.flatRadioButton.Checked = true;
-            this.flatRadioButton.Location = new System.Drawing.Point(7, 22);
-            this.flatRadioButton.Name = "flatRadioButton";
-            this.flatRadioButton.Size = new System.Drawing.Size(52, 21);
-            this.flatRadioButton.TabIndex = 0;
-            this.flatRadioButton.TabStop = true;
-            this.flatRadioButton.Text = "Flat";
-            this.flatRadioButton.UseVisualStyleBackColor = true;
-            this.flatRadioButton.CheckedChanged += new System.EventHandler(this.flatRadioButton_CheckedChanged);
+            this.flashLightRotationLabel.AutoSize = true;
+            this.flashLightRotationLabel.Location = new System.Drawing.Point(5, 22);
+            this.flashLightRotationLabel.Name = "flashLightRotationLabel";
+            this.flashLightRotationLabel.Size = new System.Drawing.Size(101, 17);
+            this.flashLightRotationLabel.TabIndex = 0;
+            this.flashLightRotationLabel.Text = "Torch rotation:";
             // 
-            // gouraudRadioButton
+            // trackBar4
             // 
-            this.gouraudRadioButton.AutoSize = true;
-            this.gouraudRadioButton.Location = new System.Drawing.Point(7, 49);
-            this.gouraudRadioButton.Name = "gouraudRadioButton";
-            this.gouraudRadioButton.Size = new System.Drawing.Size(85, 21);
-            this.gouraudRadioButton.TabIndex = 1;
-            this.gouraudRadioButton.Text = "Gouraud";
-            this.gouraudRadioButton.UseVisualStyleBackColor = true;
-            this.gouraudRadioButton.CheckedChanged += new System.EventHandler(this.gouraudRadioButton_CheckedChanged);
+            this.trackBar4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar4.AutoSize = false;
+            this.trackBar4.Location = new System.Drawing.Point(55, 21);
+            this.trackBar4.Maximum = 100;
+            this.trackBar4.Name = "trackBar4";
+            this.trackBar4.Size = new System.Drawing.Size(119, 30);
+            this.trackBar4.TabIndex = 1;
+            this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar4.Value = 50;
+            this.trackBar4.Scroll += new System.EventHandler(this.trackBar4_Scroll);
             // 
-            // phongRadioButton
+            // globalCameraRbutton
             // 
-            this.phongRadioButton.AutoSize = true;
-            this.phongRadioButton.Location = new System.Drawing.Point(7, 76);
-            this.phongRadioButton.Name = "phongRadioButton";
-            this.phongRadioButton.Size = new System.Drawing.Size(70, 21);
-            this.phongRadioButton.TabIndex = 2;
-            this.phongRadioButton.Text = "Phong";
-            this.phongRadioButton.UseVisualStyleBackColor = true;
-            this.phongRadioButton.CheckedChanged += new System.EventHandler(this.phongRadioButton_CheckedChanged);
+            this.globalCameraRbutton.AutoSize = true;
+            this.globalCameraRbutton.Checked = true;
+            this.globalCameraRbutton.Location = new System.Drawing.Point(5, 42);
+            this.globalCameraRbutton.Name = "globalCameraRbutton";
+            this.globalCameraRbutton.Size = new System.Drawing.Size(121, 21);
+            this.globalCameraRbutton.TabIndex = 2;
+            this.globalCameraRbutton.TabStop = true;
+            this.globalCameraRbutton.Text = "Global camera";
+            this.globalCameraRbutton.UseVisualStyleBackColor = true;
+            this.globalCameraRbutton.CheckedChanged += new System.EventHandler(this.globalCameraRbutton_CheckedChanged);
+            // 
+            // behindCameraRButton
+            // 
+            this.behindCameraRButton.AutoSize = true;
+            this.behindCameraRButton.Location = new System.Drawing.Point(5, 69);
+            this.behindCameraRButton.Name = "behindCameraRButton";
+            this.behindCameraRButton.Size = new System.Drawing.Size(117, 21);
+            this.behindCameraRButton.TabIndex = 3;
+            this.behindCameraRButton.Text = "Torch camera";
+            this.behindCameraRButton.UseVisualStyleBackColor = true;
+            this.behindCameraRButton.CheckedChanged += new System.EventHandler(this.behindCameraRButton_CheckedChanged);
+            // 
+            // followingCamerarButton
+            // 
+            this.followingCamerarButton.AutoSize = true;
+            this.followingCamerarButton.Location = new System.Drawing.Point(5, 96);
+            this.followingCamerarButton.Name = "followingCamerarButton";
+            this.followingCamerarButton.Size = new System.Drawing.Size(138, 21);
+            this.followingCamerarButton.TabIndex = 4;
+            this.followingCamerarButton.TabStop = true;
+            this.followingCamerarButton.Text = "Following camera";
+            this.followingCamerarButton.UseVisualStyleBackColor = true;
+            this.followingCamerarButton.CheckedChanged += new System.EventHandler(this.followingCamerarButton_CheckedChanged);
             // 
             // Form1
             // 
@@ -304,6 +386,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
@@ -313,8 +397,9 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fovTrackBar)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -339,6 +424,12 @@
         private System.Windows.Forms.RadioButton phongRadioButton;
         private System.Windows.Forms.RadioButton gouraudRadioButton;
         private System.Windows.Forms.RadioButton flatRadioButton;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label flashLightRotationLabel;
+        private System.Windows.Forms.TrackBar trackBar4;
+        private System.Windows.Forms.RadioButton behindCameraRButton;
+        private System.Windows.Forms.RadioButton globalCameraRbutton;
+        private System.Windows.Forms.RadioButton followingCamerarButton;
     }
 }
 
