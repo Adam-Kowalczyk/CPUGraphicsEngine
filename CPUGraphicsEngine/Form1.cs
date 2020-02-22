@@ -16,6 +16,7 @@ namespace CPUGraphicsEngine
     {
         public Form1()
         {
+            this.Icon = new Icon(@"../../flashlightIcon.ico");
 
             InitializeComponent();
             DBitmap = new DirectBitmap(pictureBox1.Width, pictureBox1.Height);
