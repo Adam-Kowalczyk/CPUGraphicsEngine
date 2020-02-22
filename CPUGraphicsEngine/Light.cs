@@ -10,7 +10,6 @@ namespace CPUGraphicsEngine
 {
     public class Light
     {
-        //todo: process it!
         public Vector<double> Position { get; set; }
 
         public Vector<double> ProcessedPosition { get; set; }

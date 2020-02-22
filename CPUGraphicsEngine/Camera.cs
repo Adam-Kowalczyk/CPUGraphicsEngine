@@ -12,9 +12,9 @@ namespace CPUGraphicsEngine
     {
         public Camera(Vector3 position, Vector3 target, Vector3 upVector)
         {
-            Position = Vector<double>.Build.DenseOfArray(new double[] { position.X, position.Y, position.Z });
-            Target = Vector<double>.Build.DenseOfArray(new double[] { target.X, target.Y, target.Z });
-            UpVector = Vector<double>.Build.DenseOfArray(new double[] { upVector.X, upVector.Y, upVector.Z });
+            Position = Helpers.BuildVector(position.X, position.Y, position.Z);
+            Target = Helpers.BuildVector(target.X, target.Y, target.Z);
+            UpVector = Helpers.BuildVector(upVector.X, upVector.Y, upVector.Z );
 
         }
 

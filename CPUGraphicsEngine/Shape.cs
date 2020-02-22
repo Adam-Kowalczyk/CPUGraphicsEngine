@@ -146,8 +146,6 @@ namespace CPUGraphicsEngine
             Color color = GetRandomColor();
             for (int i = 0; i < triangles.Length; i += 3)
             {
-                //if (i % 6 == 0)
-                //color = GetRandomColor();
                 shape.SideTriangles.Add(new SideTriangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]],
                     normals[i / 6], normals[i / 6], normals[i / 6])
                 {
@@ -177,12 +175,6 @@ namespace CPUGraphicsEngine
                 };
                 sphere.SideTriangles.Add(side);
             }
-            //var face = faces[76];
-            //var side = new SideTriangle(face.V1, face.V2, face.V3, Vector3.Normalize(face.V1), Vector3.Normalize(face.V2), Vector3.Normalize(face.V3))
-            //{
-            //    paintColor = color
-            //};
-            //sphere.SideTriangles.Add(side);
             return sphere;
         }
 
@@ -280,63 +272,6 @@ namespace CPUGraphicsEngine
                 }
             }
         }
-
-        //public static Shape CreateRectangle()
-        //{
-        //    var depth = 0.3f;
-
-        //    var height = 1f;
-        //    var width = 2f;
-        //    var shape = new Shape();
-        //    Vector3[] vertices = {
-        //        new Vector3 (-width, -height, -depth),
-        //        new Vector3 (width, -height, -depth),
-        //        new Vector3 (width, height, -depth),
-        //        new Vector3 (-width, height, -depth),
-        //        new Vector3 (-width, height, depth),
-        //        new Vector3 (width, height, depth),
-        //        new Vector3 (width, -height, depth),
-        //        new Vector3 (-width, -height, depth),
-        //    };
-
-        //    Vector3[] normals =
-        //    {
-        //        new Vector3 (0, 0, -1),
-        //        new Vector3 (0, 1, 0),
-        //        new Vector3 (1, 0, 0),
-        //        new Vector3 (-1, 0, 0),
-        //        new Vector3 (0, 0, 1),
-        //        new Vector3 (0, -1, 0),
-        //    };
-
-        //    int[] triangles = {
-        //        0, 2, 1, //face front
-	       //     0, 3, 2,
-        //        2, 3, 4, //face top
-	       //     2, 4, 5,
-        //        1, 2, 5, //face right
-	       //     1, 5, 6,
-        //        0, 7, 4, //face left
-	       //     0, 4, 3,
-        //        5, 4, 7, //face back
-	       //     5, 7, 6,
-        //        0, 6, 7, //face bottom
-	       //     0, 1, 6
-        //    };
-
-        //    Color color = GetRandomColor();
-        //    for (int i = 0; i < triangles.Length; i += 3)
-        //    {
-        //        //if (i % 6 == 0)
-        //        //color = GetRandomColor();
-        //        shape.SideTriangles.Add(new SideTriangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]],
-        //            normals[i / 6], normals[i / 6], normals[i / 6])
-        //        {
-        //            paintColor = color,
-        //        });
-        //    }
-        //    return shape;
-        //}
 
     }
 

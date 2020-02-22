@@ -28,6 +28,8 @@ namespace CPUGraphicsEngine
             if (minX < -margin || minX > bitmap.Width + margin) return;
 
             var etTable = new List<EdgeStruct>[maxY - minY + 1];
+
+            var area = GetAreaInv(points[0], points[1], points[2]);
             for (int i = 0; i < points.Count; i++)
             {
                 var p1 = points[i];
@@ -99,14 +101,10 @@ namespace CPUGraphicsEngine
                     for (int j = (int)(first.X); j < second.X; j++)
                     {
                         if (!(j >= 0 && j < bitmap.Width && y >= 0 && y < bitmap.Height)) continue;
-                        //var w0 = ((float)(points[1].Y - points[2].Y) * (j - points[2].X) + (float)(points[2].X - points[1].X) * (y - points[2].Y)) / ((float)(points[1].Y - points[2].Y) * (points[0].X - points[2].X) + (float)(points[2].X - points[1].X) * (points[0].Y - points[2].Y));
-                        //var w1 = ((float)(points[2].Y - points[0].Y) * (j - points[2].X) + (float)(points[0].X - points[2].X) * (y - points[2].Y)) / ((float)(points[1].Y - points[2].Y) * (points[0].X - points[2].X) + (float)(points[2].X - points[1].X) * (points[0].Y - points[2].Y));
 
-                        //var w2 = 1 - w0 - w1;
+                        var w = GetBaricentricRatio(j, y, points[0], points[1], points[2], area);
 
-                        var w = GetBaricentricRatio(j, y, points[0], points[1], points[2]);
-
-                        if (w.Item1 < 0 || w.Item2 < 0 || w.Item3 < 0) continue; //error in filling algorithm?
+                        if (w.Item1 < 0 || w.Item2 < 0 || w.Item3 < 0) continue;
 
                         var z = zs[0] * w.Item1 + zs[1] * w.Item2 + zs[2] * w.Item3;
 
@@ -133,8 +131,6 @@ namespace CPUGraphicsEngine
 
                             bitmap.SetPixel(j, y, shadingCol);
                         }
-
-                        //pixels[j, y] = (cr, cg, cb);
                     }
                 }
                 foreach (var edge in aetTable.ToList())
@@ -253,14 +249,19 @@ namespace CPUGraphicsEngine
             }
         }
 
-        public static (double, double, double) GetBaricentricRatio(int pX, int pY, Point a, Point b, Point c)
+        public static double GetAreaInv(Point a, Point b, Point c)
         {
-            double den = 1.0 / ((b.Y - c.Y) * (a.X - c.X) + (c.X - b.X) * (a.Y - c.Y)); //to można liczyć przed!
-            double first = ((b.Y - c.Y) * (pX - c.X) + (c.X - b.X) * (pY - c.Y)) * den;
+            double den = 1.0 / ((b.Y - c.Y) * (a.X - c.X) + (c.X - b.X) * (a.Y - c.Y));
+            return den;
+        }
+
+        public static (double, double, double) GetBaricentricRatio(int pX, int pY, Point a, Point b, Point c, double area)
+        {
+            double first = ((b.Y - c.Y) * (pX - c.X) + (c.X - b.X) * (pY - c.Y)) * area;
 
             if (first < 0)
                 first = 0;
-            double second = ((c.Y - a.Y) * (pX - c.X) + (a.X - c.X) * (pY - c.Y)) * den;
+            double second = ((c.Y - a.Y) * (pX - c.X) + (a.X - c.X) * (pY - c.Y)) * area;
             if (second < 0)
                 second = 0;
             double third = 1 - first - second;

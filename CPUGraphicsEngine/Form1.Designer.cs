@@ -264,7 +264,7 @@
             this.ambientLabel.Name = "ambientLabel";
             this.ambientLabel.Size = new System.Drawing.Size(87, 17);
             this.ambientLabel.TabIndex = 0;
-            this.ambientLabel.Text = "Ambient: 0,3";
+            this.ambientLabel.Text = "Ambient: 0,2";
             // 
             // groupBox1
             // 

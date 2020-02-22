@@ -33,7 +33,7 @@ namespace CPUGraphicsEngine
         DirectBitmap dBitmap;
         public Camera SelectedCamera { get; set; }
 
-        public double Ka { get; set; } = 0.3;
+        public double Ka { get; set; } = 0.2;
         public double Kd { get; set; } = 1;
         public double Ks { get; set; } = 0.2;
         public int N_shiny { get; set; } = 5;
@@ -83,7 +83,6 @@ namespace CPUGraphicsEngine
             ResetZTable();
             var pMatrix = ProjectionMatrix;
             var vMatrix = SelectedCamera.ViewMatrix;
-            //var v = Vector<double>.Build.DenseOfArray(new double[] { 0, 0, 1 });
 
             foreach(var light in Lights)
             {
@@ -102,7 +101,6 @@ namespace CPUGraphicsEngine
                     if (side.Points[0].Z > 0 && side.Points[1].Z > 0 && side.Points[2].Z > 0) continue;
                     if (n[0]*v[0] + n[1]*v[1] + n[2]*v[2] <= 0)
                     {
-                        //side.Process(pMatrix, false);
                         side.DrawSide(DBitmap, pMatrix, DBitmap.Width / 2, zTable, surf, Lights, ShadingMode);
                     }
                 }
