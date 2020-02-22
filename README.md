@@ -5,7 +5,7 @@ It's a 3D rendering engine running completly on CPU, used for torch (flashlight)
 
 Adjustable parameters:
 
--Camera setting
-  -FOV
-  -Camera positon
-  -Camera target
+*Camera setting
+  *FOV
+  *Camera positon
+  *Camera target
