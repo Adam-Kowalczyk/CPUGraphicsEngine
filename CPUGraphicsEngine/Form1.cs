@@ -16,27 +16,48 @@ namespace CPUGraphicsEngine
     {
         public Form1()
         {
-            
+
             InitializeComponent();
             DBitmap = new DirectBitmap(pictureBox1.Width, pictureBox1.Height);
             RenderEngine = Engine.CreateEngine(DBitmap);
 
             //shapes
             Cube = Shape.CreateCube();
+
             Sphere = Shape.CreateSphere(2, Color.Blue);
             Sphere.Translate(sphereX, 0, sphereZ);
+
             FlashLight = Shape.CreateFlashLight(15, 0.5, 0.2, 0.3, Color.Red);
+
+            Wall = Shape.CreateCube();
+            Wall.Scale(2, 1, 0.25);
+            Wall.Translate(0, 0, wallDistance);
+            Wall.Rotate(Axis.Y, Math.PI * wallRotation);
 
             RenderEngine.Shapes.Add(FlashLight);
             RenderEngine.Shapes.Add(Cube);
             RenderEngine.Shapes.Add(Sphere);
-            
+            RenderEngine.Shapes.Add(Wall);
+
             //lights
-            GlobalLight = new Light() { Color = Color.White, IsSpotLight = false, 
-            Position = Helpers.BuildVector(5, 5 , 0 )};
+            GlobalLight = new Light()
+            {
+                IsSpotLight = false,
+                Position = Helpers.BuildVector(5, 5, 0),
+                IsOn = true
+            };
+
+            SpotLight = new Light()
+            {
+                IsSpotLight = true,
+                Position = Helpers.BuildVector(0, 0, 0),
+                IsOn = false,
+                Direction = Helpers.BuildVector(0, 0, 1),
+                P = 17
+            };
 
             RenderEngine.Lights.Add(GlobalLight);
-
+            RenderEngine.Lights.Add(SpotLight);
             //cameras
             GlobalCamera = new Camera(new Vector3(0f, 20f, 0f), new Vector3(0, 0, 0), new Vector3(0, 0, -1));
             BehindCamera = new Camera(new Vector3(0, (float)behindHeight, (float)(-behindDistance)), new Vector3(0, 0, (float)targetDistance), new Vector3(0, 0, -1));
@@ -57,6 +78,8 @@ namespace CPUGraphicsEngine
 
         public Shape FlashLight;
 
+        public Shape Wall;
+
         //cameras
         public Camera GlobalCamera;
 
@@ -73,6 +96,7 @@ namespace CPUGraphicsEngine
         //lights
         public Light GlobalLight;
 
+        public Light SpotLight;
 
         //shapes positions
         public double cubeAngle = 0;
@@ -86,13 +110,15 @@ namespace CPUGraphicsEngine
 
         public double flashAngle = 0; // <-1, 1>
 
+        public double wallDistance = 6;
+        public double wallRotation = -0.6;
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             MoveCube();
             SetBehindCamera(flashAngle, behindDistance, targetDistance);
             SetFollowingCamera();
-            FlashLight.ResetModel();
-            FlashLight.Rotate(Axis.Y, Math.PI * flashAngle);
+            RotateFlashLight(flashAngle);
             DBitmap = new DirectBitmap(pictureBox1.Width, pictureBox1.Height);
             RenderEngine.DBitmap = DBitmap;
             RenderEngine.Render();
@@ -121,6 +147,16 @@ namespace CPUGraphicsEngine
             BehindCamera.Position = Helpers.BuildVector((-back * xV), behindHeight, (-back * zV));
             BehindCamera.Target = Helpers.BuildVector((target * xV), 0, (target * zV));
             BehindCamera.UpVector = Helpers.BuildVector(-xV, 0, -zV).Normalize(2);
+        }
+
+        private void RotateFlashLight(double angle)
+        {
+            var xV = Math.Sin(angle * Math.PI);
+            var zV = Math.Cos(angle * Math.PI);
+
+            FlashLight.ResetModel();
+            FlashLight.Rotate(Axis.Y, Math.PI * angle);
+            SpotLight.Direction = Helpers.BuildVector(xV, 0, zV);
         }
 
         private void SetFollowingCamera()
@@ -242,6 +278,33 @@ namespace CPUGraphicsEngine
                 if (rb.Checked)
                 {
                     RenderEngine.SelectedCamera = FollowingCamera;
+                }
+            }
+        }
+
+        private void globalLightCB_CheckedChanged(object sender, EventArgs e)
+        {
+            var cb = sender as CheckBox;
+            if(cb != null)
+            {
+                GlobalLight.IsOn = cb.Checked;
+            }
+           
+        }
+
+        private void torchLightCB_CheckedChanged(object sender, EventArgs e)
+        {
+            var cb = sender as CheckBox;
+            if (cb != null)
+            {
+                SpotLight.IsOn = cb.Checked;
+                if(cb.Checked)
+                {
+                    FlashLight.ChangeColor(Color.White, true);
+                }
+                else
+                {
+                    FlashLight.ChangeColor(FlashLight.PrimaryColor, false);
                 }
             }
         }

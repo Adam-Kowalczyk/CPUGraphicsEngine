@@ -20,6 +20,13 @@ namespace CPUGraphicsEngine
                 
             var minY = points.Min(x => x.Y);
             if (minY < -margin || minY > bitmap.Height + margin) return;
+
+            var maxX = points.Max(x => x.X);
+            if (maxX < -margin || maxX > bitmap.Width + margin) return;
+
+            var minX = points.Min(x => x.X);
+            if (minX < -margin || minX > bitmap.Width + margin) return;
+
             var etTable = new List<EdgeStruct>[maxY - minY + 1];
             for (int i = 0; i < points.Count; i++)
             {
@@ -44,7 +51,7 @@ namespace CPUGraphicsEngine
             var aetTable = new List<EdgeStruct>();
             int y = minY;
 
-            Color shadingCol = Color.White;
+            Color shadingCol = color;
 
             if (shadingMode == ShadingMode.Flat)
             {
@@ -173,10 +180,27 @@ namespace CPUGraphicsEngine
 
             foreach (var light in lights)
             {
-                //diffuse
+                if (!light.IsOn) continue;
+                double spotlightFactor = 1;
+
                 var l = light.CalculateLVector(position);
+
+                if (light.IsSpotLight)
+                {
+                    var cos = (-light.ProcessedDirection).DotProduct(l);
+                    if(cos > 0)
+                    {
+                        spotlightFactor = Math.Pow(cos, light.P);
+                    }
+                    else
+                    {
+                        spotlightFactor = 0;
+                    }
+                }
+                //diffuse
+
                 var lightNormalAngle = normal.DotProduct(l);
-                var diffuseR = surface.Kd * lightNormalAngle;
+                var diffuseR = surface.Kd * lightNormalAngle * spotlightFactor;
                 if (lightNormalAngle < 0) continue;
 
                 outcome.R += colorInfo.R * diffuseR;
@@ -193,11 +217,7 @@ namespace CPUGraphicsEngine
                 var cameraRAngle = r.DotProduct(v);
                 if (cameraRAngle < 0) continue;
 
-                var specularR = surface.Ks * Math.Pow(cameraRAngle, surface.N_shiny);
-
-                //outcome.R += colorInfo.R * specularR;
-                //outcome.G += colorInfo.G * specularR;
-                //outcome.B += colorInfo.B * specularR;
+                var specularR = surface.Ks * Math.Pow(cameraRAngle, surface.N_shiny) * spotlightFactor;
 
                 outcome.R += specularR;
                 outcome.G += specularR;
@@ -282,6 +302,7 @@ namespace CPUGraphicsEngine
         Flat,
         Gouraud,
         Phong,
+        None,
     }
 
 }

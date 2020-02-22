@@ -54,6 +54,8 @@
             this.globalCameraRbutton = new System.Windows.Forms.RadioButton();
             this.behindCameraRButton = new System.Windows.Forms.RadioButton();
             this.followingCamerarButton = new System.Windows.Forms.RadioButton();
+            this.globalLightCB = new System.Windows.Forms.CheckBox();
+            this.torchLightCB = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -115,9 +117,9 @@
             this.groupBox3.Controls.Add(this.phongRadioButton);
             this.groupBox3.Controls.Add(this.gouraudRadioButton);
             this.groupBox3.Controls.Add(this.flatRadioButton);
-            this.groupBox3.Location = new System.Drawing.Point(2, 316);
+            this.groupBox3.Location = new System.Drawing.Point(2, 282);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(174, 108);
+            this.groupBox3.Size = new System.Drawing.Size(174, 102);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Shading mode";
@@ -168,9 +170,9 @@
             this.groupBox2.Controls.Add(this.diffuseLabel);
             this.groupBox2.Controls.Add(this.ambientTrackBar);
             this.groupBox2.Controls.Add(this.ambientLabel);
-            this.groupBox2.Location = new System.Drawing.Point(2, 146);
+            this.groupBox2.Location = new System.Drawing.Point(2, 134);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(174, 164);
+            this.groupBox2.Size = new System.Drawing.Size(174, 142);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Surface Settings";
@@ -274,7 +276,7 @@
             this.groupBox1.Controls.Add(this.fovTrackBar);
             this.groupBox1.Location = new System.Drawing.Point(2, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(174, 137);
+            this.groupBox1.Size = new System.Drawing.Size(174, 125);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Camera Settings";
@@ -306,11 +308,13 @@
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.torchLightCB);
+            this.groupBox4.Controls.Add(this.globalLightCB);
             this.groupBox4.Controls.Add(this.trackBar4);
             this.groupBox4.Controls.Add(this.flashLightRotationLabel);
-            this.groupBox4.Location = new System.Drawing.Point(2, 430);
+            this.groupBox4.Location = new System.Drawing.Point(2, 390);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(174, 100);
+            this.groupBox4.Size = new System.Drawing.Size(174, 140);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Scene Modifiers";
@@ -373,6 +377,30 @@
             this.followingCamerarButton.UseVisualStyleBackColor = true;
             this.followingCamerarButton.CheckedChanged += new System.EventHandler(this.followingCamerarButton_CheckedChanged);
             // 
+            // globalLightCB
+            // 
+            this.globalLightCB.AutoSize = true;
+            this.globalLightCB.Checked = true;
+            this.globalLightCB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.globalLightCB.Location = new System.Drawing.Point(7, 43);
+            this.globalLightCB.Name = "globalLightCB";
+            this.globalLightCB.Size = new System.Drawing.Size(101, 21);
+            this.globalLightCB.TabIndex = 2;
+            this.globalLightCB.Text = "Global light";
+            this.globalLightCB.UseVisualStyleBackColor = true;
+            this.globalLightCB.CheckedChanged += new System.EventHandler(this.globalLightCB_CheckedChanged);
+            // 
+            // torchLightCB
+            // 
+            this.torchLightCB.AutoSize = true;
+            this.torchLightCB.Location = new System.Drawing.Point(7, 70);
+            this.torchLightCB.Name = "torchLightCB";
+            this.torchLightCB.Size = new System.Drawing.Size(97, 21);
+            this.torchLightCB.TabIndex = 3;
+            this.torchLightCB.Text = "Torch light";
+            this.torchLightCB.UseVisualStyleBackColor = true;
+            this.torchLightCB.CheckedChanged += new System.EventHandler(this.torchLightCB_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -380,7 +408,7 @@
             this.ClientSize = new System.Drawing.Size(849, 542);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Torch Simulator";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -430,6 +458,8 @@
         private System.Windows.Forms.RadioButton behindCameraRButton;
         private System.Windows.Forms.RadioButton globalCameraRbutton;
         private System.Windows.Forms.RadioButton followingCamerarButton;
+        private System.Windows.Forms.CheckBox torchLightCB;
+        private System.Windows.Forms.CheckBox globalLightCB;
     }
 }
 

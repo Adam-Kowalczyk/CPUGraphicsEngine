@@ -45,6 +45,8 @@ namespace CPUGraphicsEngine
         public List<CustomPoint> Points { get; set; }
         public Color paintColor = Color.Chocolate;
 
+        public bool IsGlowing { get; set; } = false;
+
         public bool ChangeColor = false;
         public Vector<double> Normal 
         { 
@@ -98,7 +100,13 @@ namespace CPUGraphicsEngine
                 zPoints.Add(point.Z);
             }
 
-            Helpers.Fill(bitmap, convPoints, paintColor, zPoints, zTable, pos, norms, surface, lights, shadingMode);
+            var sMode = shadingMode;
+            if(IsGlowing)
+            {
+                sMode = ShadingMode.None;
+            }
+
+            Helpers.Fill(bitmap, convPoints, paintColor, zPoints, zTable, pos, norms, surface, lights, sMode); ;
         }
 
         public List<Vector<double>> GetPositions()

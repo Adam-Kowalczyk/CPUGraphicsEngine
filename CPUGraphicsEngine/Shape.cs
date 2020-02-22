@@ -73,6 +73,7 @@ namespace CPUGraphicsEngine
 
         }
 
+        public Color PrimaryColor { get; set; }
         public void ResetModel()
         {
             ModelMatrix = Matrix<double>.Build.DenseOfArray(new double[,] {
@@ -90,6 +91,16 @@ namespace CPUGraphicsEngine
                                         {0, 0, 1, z },
                                         {0, 0, 0, 1 }});
             ModelMatrix = transltionMatrix.Multiply(ModelMatrix);
+        }
+
+        public void Scale(double x, double y, double z)
+        {
+            var scaleMatrix = Matrix<double>.Build.DenseOfArray(new double[,] {
+                                        {x, 0, 0, 0 },
+                                        {0, y, 0, 0 },
+                                        {0, 0, z, 0 },
+                                        {0, 0, 0, 1 }});
+            ModelMatrix = scaleMatrix.Multiply(ModelMatrix);
         }
 
 
@@ -178,7 +189,7 @@ namespace CPUGraphicsEngine
 
         public static Shape CreateFlashLight(int devisionNumber, double headLength, double handleRadius, double headRadius, Color color)
         {
-            var flash = new Shape();
+            var flash = new Shape() { PrimaryColor = color };
             var angleDifference = 2 * Math.PI / devisionNumber;
             double end = -1;
             double connector = 1 - headLength;
@@ -257,6 +268,75 @@ namespace CPUGraphicsEngine
             return flash;
 
         }
+
+        public void ChangeColor(Color color, bool setGlow)
+        {
+            foreach(var side in SideTriangles)
+            {
+                if(side.ChangeColor)
+                {
+                    side.paintColor = color;
+                    side.IsGlowing = setGlow;
+                }
+            }
+        }
+
+        //public static Shape CreateRectangle()
+        //{
+        //    var depth = 0.3f;
+
+        //    var height = 1f;
+        //    var width = 2f;
+        //    var shape = new Shape();
+        //    Vector3[] vertices = {
+        //        new Vector3 (-width, -height, -depth),
+        //        new Vector3 (width, -height, -depth),
+        //        new Vector3 (width, height, -depth),
+        //        new Vector3 (-width, height, -depth),
+        //        new Vector3 (-width, height, depth),
+        //        new Vector3 (width, height, depth),
+        //        new Vector3 (width, -height, depth),
+        //        new Vector3 (-width, -height, depth),
+        //    };
+
+        //    Vector3[] normals =
+        //    {
+        //        new Vector3 (0, 0, -1),
+        //        new Vector3 (0, 1, 0),
+        //        new Vector3 (1, 0, 0),
+        //        new Vector3 (-1, 0, 0),
+        //        new Vector3 (0, 0, 1),
+        //        new Vector3 (0, -1, 0),
+        //    };
+
+        //    int[] triangles = {
+        //        0, 2, 1, //face front
+	       //     0, 3, 2,
+        //        2, 3, 4, //face top
+	       //     2, 4, 5,
+        //        1, 2, 5, //face right
+	       //     1, 5, 6,
+        //        0, 7, 4, //face left
+	       //     0, 4, 3,
+        //        5, 4, 7, //face back
+	       //     5, 7, 6,
+        //        0, 6, 7, //face bottom
+	       //     0, 1, 6
+        //    };
+
+        //    Color color = GetRandomColor();
+        //    for (int i = 0; i < triangles.Length; i += 3)
+        //    {
+        //        //if (i % 6 == 0)
+        //        //color = GetRandomColor();
+        //        shape.SideTriangles.Add(new SideTriangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]],
+        //            normals[i / 6], normals[i / 6], normals[i / 6])
+        //        {
+        //            paintColor = color,
+        //        });
+        //    }
+        //    return shape;
+        //}
 
     }
 
